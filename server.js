@@ -10,35 +10,43 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Servir arquivos estáticos (HTML, CSS, JS)
+app.use(express.static(path.join(__dirname)));
+
 // Carregar dados dos animes
 const animesPath = path.join(__dirname, 'animes.json');
 let animes = JSON.parse(fs.readFileSync(animesPath, 'utf-8'));
 
 // ===== ROTAS =====
 
-// Rota principal
+// Rota para servir o front-end
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Rota da API
+app.get('/api', (req, res) => {
   res.json({
     message: 'Bem-vindo à API de Animes! 🎌',
     endpoints: {
-      'GET /animes': 'Lista todos os animes',
-      'GET /animes/:id': 'Busca anime por ID',
-      'GET /animes/search?nome=': 'Busca animes por nome',
-      'GET /animes/filter?genero=&temporada=&ano=': 'Filtra animes'
+      'GET /api/animes': 'Lista todos os animes',
+      'GET /api/animes/:id': 'Busca anime por ID',
+      'GET /api/animes/search?nome=': 'Busca animes por nome',
+      'GET /api/animes/filter?genero=&temporada=&ano=': 'Filtra animes'
     }
   });
 });
 
 // Listar todos os animes
-app.get('/animes', (req, res) => {
+app.get('/api/animes', (req, res) => {
   res.json({
     total: animes.length,
     animes: animes
   });
 });
 
-// Buscar animes por nome (ANTES do :id)
-app.get('/animes/search', (req, res) => {
+// Buscar animes por nome
+app.get('/api/animes/search', (req, res) => {
   const { nome } = req.query;
   
   if (!nome) {
@@ -56,8 +64,8 @@ app.get('/animes/search', (req, res) => {
   });
 });
 
-// Filtrar animes por gênero, temporada ou ano (ANTES do :id)
-app.get('/animes/filter', (req, res) => {
+// Filtrar animes por gênero, temporada ou ano
+app.get('/api/animes/filter', (req, res) => {
   const { genero, temporada, ano } = req.query;
   
   let resultados = [...animes];
@@ -87,8 +95,8 @@ app.get('/animes/filter', (req, res) => {
   });
 });
 
-// Buscar anime por ID (POR ÚLTIMO)
-app.get('/animes/:id', (req, res) => {
+// Buscar anime por ID
+app.get('/api/animes/:id', (req, res) => {
   const anime = animes.find(a => a.id === parseInt(req.params.id));
   
   if (!anime) {
@@ -99,7 +107,7 @@ app.get('/animes/:id', (req, res) => {
 });
 
 // Adicionar novo anime (POST)
-app.post('/animes', (req, res) => {
+app.post('/api/animes', (req, res) => {
   const novoAnime = req.body;
   
   // Validação básica
@@ -147,6 +155,6 @@ app.use((req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`🚀 API de Animes rodando em http://localhost:${PORT}`);
-  console.log(`📊 Total de animes carregados: ${animes.length}`);
+  console.log(`🚀....... API de Animes rodando em http://localhost:${PORT}`);
+  console.log(`📊 ...... Total de animes carregados: ${animes.length}`);
 });
