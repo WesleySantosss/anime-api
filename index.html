@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Database 🎌</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .filters {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+        }
+
+        .filter-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-search {
+            background: #667eea;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-search:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #d0d0d0;
+        }
+
+        .stats {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            padding: 50px;
+        }
+
+        .anime-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .anime-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .anime-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .anime-title {
+            font-size: 1.5rem;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .anime-original {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .anime-genres {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .genre-tag {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+
+        .anime-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .anime-synopsis {
+            color: #666;
+            line-height: 1.6;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .rating {
+            display: inline-block;
+            background: #ffd700;
+            color: #333;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-finalizado {
+            background: #4caf50;
+            color: white;
+        }
+
+        .status-andamento {
+            background: #2196f3;
+            color: white;
+        }
+
+        .no-results {
+            text-align: center;
+            color: white;
+            font-size: 1.5rem;
+            padding: 50px;
+        }
+
+        /* Botão flutuante */
+        .fab-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 64, 129, 0.5);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .fab-button:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 30px rgba(255, 64, 129, 0.7);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .modal-header h2 {
+            color: #667eea;
+            font-size: 2rem;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            padding: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .genres-checkboxes {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            width: auto;
+            cursor: pointer;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .anime-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .fab-button {
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎌 Anime Database</h1>
+            <p class="subtitle">Explore sua coleção de animes favoritos</p>
+        </header>
+
+        <div class="filters">
+            <div class="filter-group">
+                <div class="filter-item">
+                    <label for="searchName">🔍 Buscar por nome:</label>
+                    <input type="text" id="searchName" placeholder="Digite o nome do anime...">
+                </div>
+                
+                <div class="filter-item">
+                    <label for="filterGenre">🎭 Gênero:</label>
+                    <select id="filterGenre">
+                        <option value="">Todos os gêneros</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="filterYear">📅 Ano:</label>
+                    <select id="filterYear">
+                        <option value="">Todos os anos</option>
+                    </select>
+                </div>
+                
+                <div class="filter-item">
+                    <label for="filterSeason">🍂 Temporada:</label>
+                    <select id="filterSeason">
+                        <option value="">Todas as temporadas</option>
+                        <option value="Primavera">Primavera</option>
+                        <option value="Verão">Verão</option>
+                        <option value="Outono">Outono</option>
+                        <option value="Inverno">Inverno</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="btn-group">
+                <button class="btn-search" onclick="applyFilters()">Buscar</button>
+                <button class="btn-reset" onclick="resetFilters()">Limpar Filtros</button>
+            </div>
+        </div>
+
+        <div class="stats" id="stats"></div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            Carregando animes... ⏳
+        </div>
+        
+        <div class="anime-grid" id="animeGrid"></div>
+        
+        <div id="noResults" class="no-results" style="display: none;">
+            Nenhum anime encontrado 😢
+        </div>
+    </div>
+
+    <!-- Botão flutuante -->
+    <button class="fab-button" onclick="openModal()" title="Adicionar Anime">+</button>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>➕ Adicionar Novo Anime</h2>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                ✅ Anime adicionado com sucesso!
+            </div>
+
+            <form id="animeForm" onsubmit="submitAnime(event)">
+                <div class="form-group">
+                    <label for="titulo">Título *</label>
+                    <input type="text" id="titulo" required placeholder="Ex: Naruto">
+                </div>
+
+                <div class="form-group">
+                    <label for="tituloOriginal">Título Original</label>
+                    <input type="text" id="tituloOriginal" placeholder="Ex: ナルト">
+                </div>
+
+                <div class="form-group">
+                    <label>Gêneros * (selecione pelo menos um)</label>
+                    <div class="genres-checkboxes">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Ação"> Ação
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Aventura"> Aventura
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Comédia"> Comédia
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Drama"> Drama
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Fantasia"> Fantasia
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Romance"> Romance
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Ficção Científica"> Ficção Científica
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Horror"> Horror
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Mistério"> Mistério
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="genero" value="Sobrenatural"> Sobrenatural
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="temporada">Temporada *</label>
+                    <select id="temporada" required>
+                        <option value="">Selecione...</option>
+                        <option value="Primavera">Primavera</option>
+                        <option value="Verão">Verão</option>
+                        <option value="Outono">Outono</option>
+                        <option value="Inverno">Inverno</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="ano">Ano *</label>
+                    <input type="number" id="ano" required min="1960" max="2030" placeholder="2024">
+                </div>
+
+                <div class="form-group">
+                    <label for="episodios">Número de Episódios</label>
+                    <input type="number" id="episodios" min="0" placeholder="12">
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status *</label>
+                    <select id="status" required>
+                        <option value="">Selecione...</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Finalizado">Finalizado</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="estudio">Estúdio</label>
+                    <input type="text" id="estudio" placeholder="Ex: Ufotable">
+                </div>
+
+                <div class="form-group">
+                    <label for="nota">Nota (0-10)</label>
+                    <input type="number" id="nota" min="0" max="10" step="0.1" placeholder="8.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="sinopse">Sinopse</label>
+                    <textarea id="sinopse" placeholder="Descreva a história do anime..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">🚀 Adicionar Anime</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+        let allAnimes = [];
+
+        // Carregar animes ao iniciar
+        async function loadAnimes() {
+            try {
+                document.getElementById('loading').style.display = 'block';
+                const response = await fetch(`${API_URL}/animes`);
+                const data = await response.json();
+                allAnimes = data.animes;
+                
+                populateFilters();
+                displayAnimes(allAnimes);
+                updateStats(allAnimes.length);
+                
+                document.getElementById('loading').style.display = 'none';
+            } catch (error) {
+                console.error('Erro ao carregar animes:', error);
+                document.getElementById('loading').innerHTML = 
+                    '❌ Erro ao conectar com a API. Certifique-se que o servidor está rodando em http://localhost:3000';
+            }
+        }
+
+        // Preencher filtros dinamicamente
+        function populateFilters() {
+            const genres = new Set();
+            const years = new Set();
+            
+            allAnimes.forEach(anime => {
+                anime.generos.forEach(g => genres.add(g));
+                years.add(anime.ano);
+            });
+            
+            const genreSelect = document.getElementById('filterGenre');
+            [...genres].sort().forEach(genre => {
+                const option = document.createElement('option');
+                option.value = genre;
+                option.textContent = genre;
+                genreSelect.appendChild(option);
+            });
+            
+            const yearSelect = document.getElementById('filterYear');
+            [...years].sort((a, b) => b - a).forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearSelect.appendChild(option);
+            });
+        }
+
+        // Aplicar filtros
+        async function applyFilters() {
+            const searchName = document.getElementById('searchName').value.trim();
+            const genre = document.getElementById('filterGenre').value;
+            const year = document.getElementById('filterYear').value;
+            const season = document.getElementById('filterSeason').value;
+            
+            let filtered = [...allAnimes];
+            
+            if (searchName) {
+                filtered = filtered.filter(anime => 
+                    anime.titulo.toLowerCase().includes(searchName.toLowerCase())
+                );
+            }
+            
+            if (genre) {
+                filtered = filtered.filter(anime => anime.generos.includes(genre));
+            }
+            
+            if (year) {
+                filtered = filtered.filter(anime => anime.ano === parseInt(year));
+            }
+            
+            if (season) {
+                filtered = filtered.filter(anime => anime.temporada === season);
+            }
+            
+            displayAnimes(filtered);
+            updateStats(filtered.length);
+        }
+
+        // Resetar filtros
+        function resetFilters() {
+            document.getElementById('searchName').value = '';
+            document.getElementById('filterGenre').value = '';
+            document.getElementById('filterYear').value = '';
+            document.getElementById('filterSeason').value = '';
+            displayAnimes(allAnimes);
+            updateStats(allAnimes.length);
+        }
+
+        // Exibir animes
+        function displayAnimes(animes) {
+            const grid = document.getElementById('animeGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (animes.length === 0) {
+                grid.innerHTML = '';
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            
+            grid.innerHTML = animes.map(anime => `
+                <div class="anime-card">
+                    <h2 class="anime-title">${anime.titulo}</h2>
+                    ${anime.tituloOriginal ? `<p class="anime-original">${anime.tituloOriginal}</p>` : ''}
+                    
+                    <div class="anime-genres">
+                        ${anime.generos.map(g => `<span class="genre-tag">${g}</span>`).join('')}
+                    </div>
+                    
+                    <div class="anime-info">
+                        <div class="info-item">
+                            <span class="info-label">📅 Ano:</span> ${anime.ano}
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">📺 Episódios:</span> ${anime.episodios}
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">🍂 Temporada:</span> ${anime.temporada}
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">🎬 Estúdio:</span> ${anime.estudio}
+                        </div>
+                    </div>
+                    
+                    <span class="status-badge ${anime.status === 'Finalizado' ? 'status-finalizado' : 'status-andamento'}">
+                        ${anime.status}
+                    </span>
+                    
+                    <span class="rating">⭐ ${anime.nota}</span>
+                    
+                    <p class="anime-synopsis">${anime.sinopse}</p>
+                </div>
+            `).join('');
+        }
+
+        // Atualizar estatísticas
+        function updateStats(count) {
+            document.getElementById('stats').textContent = 
+                `📊 Exibindo ${count} anime${count !== 1 ? 's' : ''}`;
+        }
+
+        // Buscar ao pressionar Enter
+        document.getElementById('searchName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') applyFilters();
+        });
+
+        // Funções do Modal
+        function openModal() {
+            document.getElementById('modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            document.getElementById('animeForm').reset();
+            document.getElementById('successMessage').classList.remove('show');
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
+        });
+
+        // Submeter novo anime
+        async function submitAnime(event) {
+            event.preventDefault();
+            
+            // Coletar gêneros selecionados
+            const generos = Array.from(document.querySelectorAll('input[name="genero"]:checked'))
+                .map(cb => cb.value);
+            
+            if (generos.length === 0) {
+                alert('Selecione pelo menos um gênero!');
+                return;
+            }
+            
+            // Criar objeto do anime
+            const novoAnime = {
+                titulo: document.getElementById('titulo').value,
+                tituloOriginal: document.getElementById('tituloOriginal').value,
+                generos: generos,
+                temporada: document.getElementById('temporada').value,
+                ano: parseInt(document.getElementById('ano').value),
+                episodios: parseInt(document.getElementById('episodios').value) || 0,
+                status: document.getElementById('status').value,
+                estudio: document.getElementById('estudio').value || 'Desconhecido',
+                nota: parseFloat(document.getElementById('nota').value) || 0,
+                sinopse: document.getElementById('sinopse').value || 'Sem sinopse'
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/animes`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(novoAnime)
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Mostrar mensagem de sucesso
+                    document.getElementById('successMessage').classList.add('show');
+                    
+                    // Limpar formulário
+                    document.getElementById('animeForm').reset();
+                    
+                    // Recarregar lista de animes
+                    await loadAnimes();
+                    
+                    // Fechar modal após 2 segundos
+                    setTimeout(() => {
+                        closeModal();
+                    }, 2000);
+                } else {
+                    alert('Erro ao adicionar anime: ' + data.erro);
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao conectar com a API!');
+            }
+        }
+
+        // Inicializar
+        loadAnimes();
+    </script>
+</body>
+</html>

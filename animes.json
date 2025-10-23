@@ -1,0 +1,260 @@
+[
+  {
+    "id": 1,
+    "titulo": "Attack on Titan",
+    "tituloOriginal": "Shingeki no Kyojin",
+    "generos": [
+      "Ação",
+      "Drama",
+      "Fantasia"
+    ],
+    "temporada": "Inverno",
+    "ano": 2013,
+    "episodios": 25,
+    "status": "Finalizado",
+    "sinopse": "Humanidade vive atrás de muros para se proteger de titãs devoradores.",
+    "nota": 9,
+    "estudio": "Wit Studio"
+  },
+  {
+    "id": 2,
+    "titulo": "Demon Slayer",
+    "tituloOriginal": "Kimetsu no Yaiba",
+    "generos": [
+      "Ação",
+      "Aventura",
+      "Fantasia"
+    ],
+    "temporada": "Primavera",
+    "ano": 2019,
+    "episodios": 26,
+    "status": "Finalizado",
+    "sinopse": "Tanjiro busca vingança e cura para sua irmã transformada em demônio.",
+    "nota": 8.7,
+    "estudio": "Ufotable"
+  },
+  {
+    "id": 3,
+    "titulo": "One Piece",
+    "generos": [
+      "Ação",
+      "Aventura",
+      "Comédia"
+    ],
+    "temporada": "Outono",
+    "ano": 1999,
+    "episodios": 1000,
+    "status": "Em andamento",
+    "sinopse": "Luffy e sua tripulação buscam o tesouro lendário One Piece.",
+    "nota": 8.9,
+    "estudio": "Toei Animation"
+  },
+  {
+    "id": 4,
+    "titulo": "My Hero Academia",
+    "tituloOriginal": "Boku no Hero Academia",
+    "generos": [
+      "Ação",
+      "Comédia",
+      "Super-heróis"
+    ],
+    "temporada": "Primavera",
+    "ano": 2016,
+    "episodios": 13,
+    "status": "Finalizado",
+    "sinopse": "Izuku Midoriya nasceu sem poderes em um mundo de super-heróis.",
+    "nota": 8.4,
+    "estudio": "Bones"
+  },
+  {
+    "id": 5,
+    "titulo": "Jujutsu Kaisen",
+    "generos": [
+      "Ação",
+      "Fantasia",
+      "Sobrenatural"
+    ],
+    "temporada": "Outono",
+    "ano": 2020,
+    "episodios": 24,
+    "status": "Finalizado",
+    "sinopse": "Yuji entra no mundo de feiticeiros para combater maldições.",
+    "nota": 8.8,
+    "estudio": "MAPPA"
+  },
+  {
+    "id": 6,
+    "titulo": "Death Note",
+    "generos": [
+      "Mistério",
+      "Psicológico",
+      "Thriller"
+    ],
+    "temporada": "Outono",
+    "ano": 2006,
+    "episodios": 37,
+    "status": "Finalizado",
+    "sinopse": "Light encontra um caderno que mata qualquer um cujo nome seja escrito.",
+    "nota": 9,
+    "estudio": "Madhouse"
+  },
+  {
+    "id": 7,
+    "titulo": "Naruto",
+    "generos": [
+      "Ação",
+      "Aventura",
+      "Comédia"
+    ],
+    "temporada": "Outono",
+    "ano": 2002,
+    "episodios": 220,
+    "status": "Finalizado",
+    "sinopse": "Naruto sonha em se tornar o Hokage da Vila da Folha.",
+    "nota": 8.3,
+    "estudio": "Pierrot"
+  },
+  {
+    "id": 8,
+    "titulo": "Fullmetal Alchemist: Brotherhood",
+    "generos": [
+      "Ação",
+      "Aventura",
+      "Drama"
+    ],
+    "temporada": "Primavera",
+    "ano": 2009,
+    "episodios": 64,
+    "status": "Finalizado",
+    "sinopse": "Dois irmãos alquimistas buscam a Pedra Filosofal.",
+    "nota": 9.1,
+    "estudio": "Bones"
+  },
+  {
+    "id": 9,
+    "titulo": "Sword Art Online",
+    "generos": [
+      "Ação",
+      "Aventura",
+      "Romance"
+    ],
+    "temporada": "Verão",
+    "ano": 2012,
+    "episodios": 25,
+    "status": "Finalizado",
+    "sinopse": "Jogadores ficam presos em um MMORPG de realidade virtual.",
+    "nota": 7.6,
+    "estudio": "A-1 Pictures"
+  },
+  {
+    "id": 10,
+    "titulo": "Steins;Gate",
+    "generos": [
+      "Ficção Científica",
+      "Thriller",
+      "Drama"
+    ],
+    "temporada": "Primavera",
+    "ano": 2011,
+    "episodios": 24,
+    "status": "Finalizado",
+    "sinopse": "Cientistas acidentalmente criam uma máquina do tempo.",
+    "nota": 9.1,
+    "estudio": "White Fox"
+  },
+  {
+    "id": 11,
+    "titulo": "Spy x Family",
+    "generos": [
+      "Ação",
+      "Comédia",
+      "Slice of Life"
+    ],
+    "temporada": "Primavera",
+    "ano": 2022,
+    "episodios": 12,
+    "status": "Finalizado",
+    "sinopse": "Espião cria família falsa sem saber que esposa é assassina e filha lê mentes.",
+    "nota": 8.7,
+    "estudio": "Wit Studio"
+  },
+  {
+    "id": 12,
+    "titulo": "Chainsaw Man",
+    "generos": [
+      "Ação",
+      "Horror",
+      "Sobrenatural"
+    ],
+    "temporada": "Outono",
+    "ano": 2022,
+    "episodios": 12,
+    "status": "Finalizado",
+    "sinopse": "Denji ganha poderes de motosserra e vira caçador de demônios.",
+    "nota": 8.6,
+    "estudio": "MAPPA"
+  },
+  {
+    "id": 13,
+    "titulo": "Tokyo Revengers",
+    "generos": [
+      "Ação",
+      "Drama",
+      "Sobrenatural"
+    ],
+    "temporada": "Primavera",
+    "ano": 2021,
+    "episodios": 24,
+    "status": "Finalizado",
+    "sinopse": "Takemichi viaja no tempo para salvar sua ex-namorada.",
+    "nota": 7.9,
+    "estudio": "LIDEN FILMS"
+  },
+  {
+    "id": 14,
+    "titulo": "Hunter x Hunter",
+    "generos": [
+      "Ação",
+      "Aventura",
+      "Fantasia"
+    ],
+    "temporada": "Outono",
+    "ano": 2011,
+    "episodios": 148,
+    "status": "Finalizado",
+    "sinopse": "Gon busca seu pai e se torna um Hunter profissional.",
+    "nota": 9,
+    "estudio": "Madhouse"
+  },
+  {
+    "id": 15,
+    "titulo": "Mob Psycho 100",
+    "generos": [
+      "Ação",
+      "Comédia",
+      "Sobrenatural"
+    ],
+    "temporada": "Verão",
+    "ano": 2016,
+    "episodios": 12,
+    "status": "Finalizado",
+    "sinopse": "Garoto com poderes psíquicos tenta viver uma vida normal.",
+    "nota": 8.5,
+    "estudio": "Bones"
+  },
+  {
+    "id": 16,
+    "titulo": "dragon ball z",
+    "tituloOriginal": "dragon ball z",
+    "generos": [
+      "Ação"
+    ],
+    "temporada": "Primavera",
+    "ano": 1989,
+    "episodios": 300,
+    "status": "Finalizado",
+    "sinopse": "wwwwwwwwwwwwwwwwwww",
+    "nota": 10,
+    "estudio": "sem est"
+  }
+]
