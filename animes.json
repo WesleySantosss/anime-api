@@ -256,5 +256,20 @@
     "sinopse": "wwwwwwwwwwwwwwwwwww",
     "nota": 10,
     "estudio": "sem est"
+  },
+  {
+    "id": 17,
+    "titulo": "Mob Psycho 100",
+    "tituloOriginal": "Mob Psycho 100",
+    "generos": [
+      "Ação"
+    ],
+    "temporada": "Verão",
+    "ano": 2021,
+    "episodios": 0,
+    "status": "Em andamento",
+    "sinopse": "Sem sinopse",
+    "nota": 9,
+    "estudio": "Desconhecido"
   }
 ]
