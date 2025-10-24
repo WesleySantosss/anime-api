@@ -154,7 +154,7 @@ app.use((req, res) => {
 });
 
 // Iniciar servidor
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀....... API de Animes rodando em http://localhost:${PORT}`);
   console.log(`📊 ...... Total de animes carregados: ${animes.length}`);
 });
