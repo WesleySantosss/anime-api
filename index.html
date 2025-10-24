@@ -1533,7 +1533,7 @@
         }
 
         // Inicializar
-        /* CHANGE Load animes without displaying them initially */
+        /* Restore displaying all animes on initial load */
         async function loadAnimes() {
             try {
                 document.getElementById('loading').style.display = 'block';
@@ -1542,11 +1542,12 @@
                 allAnimes = data.animes;
                 
                 populateFilters();
-                generateAlphabetNav(); // Generate alphabet navigation
-                /* CHANGE Don't display animes on initial load, just hide loading */
+                generateAlphabetNav();
                 document.getElementById('loading').style.display = 'none';
-                /* CHANGE Show a welcome message or keep grid empty until user interacts */
-                document.getElementById('animeGrid').innerHTML = '<div style="text-align: center; padding: 3rem; color: #a78bfa; font-size: 1.2rem;">👋 Bem-vindo! Use os filtros, busca ou navegação alfabética para explorar os animes.</div>';
+                
+                // Display all animes on initial load
+                displayAnimes(allAnimes);
+                updateStats(allAnimes.length);
             } catch (error) {
                 console.error('Erro ao carregar animes:', error);
                 document.getElementById('loading').innerHTML = 
